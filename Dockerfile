@@ -12,5 +12,8 @@ RUN addgroup -g 777 www
 # fix pydio group permissions so php and nginx both can have access
 RUN chown -R :www /var/www/pydio && chmod -R g+w /var/www/pydio
 
+# cleanup
+RUN rm /tmp/pydio-core-6.0.8.zip
+
 VOLUME ["/var/www/pydio"]
 
