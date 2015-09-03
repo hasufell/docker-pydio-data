@@ -1,7 +1,6 @@
 FROM        hasufell/gentoo-amd64-paludis:20150820
 MAINTAINER  Julian Ospald <hasufell@gentoo.org>
 
-# install alien
 RUN chgrp paludisbuild /dev/tty && cave resolve -z app-arch/rpm app-arch/cpio -x
 
 # fetch pydio release
