@@ -1,15 +1,14 @@
-FROM        centos:centos6
+FROM        hasufell/gentoo-amd64-paludis:20150820
 MAINTAINER  Julian Ospald <hasufell@gentoo.org>
 
-RUN yum install -y wget
-RUN rpm -Uvh http://dl.ajaxplorer.info/repos/pydio-release-1-1.noarch.rpm
-RUN wget http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-RUN wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-RUN wget -q -O – http://www.atomicorp.com/installers/atomic | sh
-RUN rpm -Uvh remi-release-6*.rpm epel-release-6*.rpm
+# install alien
+RUN chgrp paludisbuild /dev/tty && cave resolve -z app-arch/rpm app-arch/cpio -x
+
+# fetch pydio release
+RUN wget http://dl.ajaxplorer.info/repos/el6/pydio-stable/pydio-6.0.8-1.noarch.rpm
 
 # install pydio
-RUN yum install -y --disablerepo=pydio-testing pydio-6.0.8 && \
+RUN rpm2cpio pydio-6.0.8-1.noarch.rpm | cpio -idmv && \
 	rm -rf /etc/httpd /var/log/pydio && \
 	find /usr/share/pydio -name '.htaccess' -delete && \
 	find /var/cache/pydio -name '.htaccess' -delete && \
